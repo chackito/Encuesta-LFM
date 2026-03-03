@@ -1296,21 +1296,23 @@ function submitNuclear() {
 
 // ── Envío final ──
 function submitForm() {
-  // Recopilar datos
+  var semestre = getRadio('semFisica') || getRadio('semMat') || getRadio('semMatEd') || getRadio('semNuclear') || '';
+
   var datos = {
     nombres: document.getElementById('nombres').value.trim(),
     apPaterno: document.getElementById('apPaterno').value.trim(),
     apMaterno: document.getElementById('apMaterno').value.trim(),
     boleta: document.getElementById('boleta').value.trim(),
     correo: document.getElementById('correo').value.trim(),
-    opcion: getRadio('opcion')
+    opcion: getRadio('opcion'),
+    semestre: semestre
   };
 
-  // Recopilar checkboxes seleccionados
   var materias = [];
   document.querySelectorAll('input[type="checkbox"]:checked').forEach(function(cb) {
     materias.push(cb.value);
   });
+  datos.materias = materias.join(' | ');
 
   // Mostrar resumen
   var resumen = '<strong>Alumno:</strong> ' + datos.nombres + ' ' + datos.apPaterno + ' ' + datos.apMaterno + '<br>' +
@@ -1327,6 +1329,17 @@ function submitForm() {
   document.getElementById('success-screen').classList.add('active');
   document.getElementById('progressFill').style.width = '100%';
   window.scrollTo({top: 0, behavior: 'smooth'});
+
+  // Enviar a Google Sheets
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0MGtyumzckPTP1YUuCriX1gZTuMCSf6xmG0z5dly7agaJsFxV53myXKt0FOiMztlEjQ/exec';
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos)
+  }).catch(function(err) {
+    console.error('Error al enviar:', err);
+  });
 }
 </script>
 </body>

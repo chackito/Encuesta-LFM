@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuesta de Materias – Lic. en Física y Matemáticas</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f13;
+  --surface: #17171e;
+  --border: #2a2a38;
+  --accent: #5b8cff;
+  --accent2: #ff6b6b;
+  --text: #e8e8f0;
+  --muted: #6b6b88;
+  --success: #4ade80;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  padding: 2rem 1rem 4rem;
+}
+
+.header {
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  border-left: 3px solid var(--accent);
+  padding-left: 1.5rem;
+}
+
+.header .tag {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 0.4rem;
+}
+
+.header p {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.form-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Progress */
+.progress-bar {
+  background: var(--border);
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.4s ease;
+  border-radius: 2px;
+}
+
+/* Steps */
+.step { display: none; }
+.step.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.step-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.step-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Field groups */
+.field {
+  margin-bottom: 1.5rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.field label .req {
+  color: var(--accent2);
+  margin-left: 3px;
+}
+
+.field input[type="text"],
+.field input[type="email"] {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.65rem 0.9rem;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.field input:focus {
+  border-color: var(--accent);
+}
+
+/* Radio & Checkbox cards */
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  user-select: none;
+}
+
+.option-card:hover {
+  border-color: var(--accent);
+  background: #1e1e2a;
+}
+
+.option-card input[type="radio"],
+.option-card input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border: 2px solid var(--muted);
+  border-radius: 50%;
+  margin-top: 1px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+
+.option-card input[type="checkbox"] {
+  border-radius: 4px;
+}
+
+.option-card input[type="radio"]:checked,
+.option-card input[type="checkbox"]:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.option-card input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.option-card input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  font-size: 10px;
+  color: white;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.option-card.selected {
+  border-color: var(--accent);
+  background: rgba(91, 140, 255, 0.08);
+}
+
+.option-card span {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+/* Checkbox group with title */
+.checkbox-group {
+  margin-bottom: 1.5rem;
+}
+.checkbox-group-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Info box */
+.info-box {
+  background: rgba(91, 140, 255, 0.08);
+  border: 1px solid rgba(91, 140, 255, 0.25);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  font-size: 0.82rem;
+  color: #a0b4ff;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.btn {
+  padding: 0.7rem 1.6rem;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+.btn-primary:hover { background: #7aa3ff; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { color: var(--text); border-color: var(--muted); }
+
+/* Success */
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.success-screen.active { display: block; animation: fadeIn 0.4s ease; }
+.success-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.success-screen h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+.success-screen p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Error */
+.error-msg {
+  color: var(--accent2);
+  font-size: 0.78rem;
+  margin-top: 0.4rem;
+  display: none;
+}
+.error-msg.show { display: block; }
+
+/* Two column grid for text fields */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 500px) {
+  .grid-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="tag">IPN · Escuela Superior de Física y Matemáticas</div>
+  <h1>Encuesta de Unidades de Aprendizaje Optativas</h1>
+  <p>Licenciatura en Física y Matemáticas · Plan 2008-2009</p>
+</div>
+
+<div class="form-container">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <!-- ══ STEP 1: DATOS ══ -->
+  <div class="step active" id="step-datos">
+    <div class="step-title">01 · Datos del alumno</div>
+
+    <div class="field">
+      <label>Nombre(s) <span class="req">*</span></label>
+      <input type="text" id="nombres" placeholder="Ej. Juan Carlos">
+      <div class="error-msg" id="err-nombres">Este campo es requerido</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label>Apellido Paterno <span class="req">*</span></label>
+        <input type="text" id="apPaterno" placeholder="">
+        <div class="error-msg" id="err-apPaterno">Requerido</div>
+      </div>
+      <div class="field">
+        <label>Apellido Materno <span class="req">*</span></label>
+        <input type="text" id="apMaterno" placeholder="">
+        <div class="error-msg" id="err-apMaterno">Requerido</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label>Boleta <span class="req">*</span></label>
+        <input type="text" id="boleta" placeholder="Ej. 2021600001">
+        <div class="error-msg" id="err-boleta">Requerido</div>
+      </div>
+      <div class="field">
+        <label>Correo electrónico <span class="req">*</span></label>
+        <input type="email" id="correo" placeholder="usuario@ejemplo.com">
+        <div class="error-msg" id="err-correo">Correo válido requerido</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Opción <span class="req">*</span></label>
+      <div class="options-grid" id="opcion-group">
+        <label class="option-card"><input type="radio" name="opcion" value="fisica"><span>a. Física</span></label>
+        <label class="option-card"><input type="radio" name="opcion" value="matematicas"><span>b. Matemáticas</span></label>
+        <label class="option-card"><input type="radio" name="opcion" value="mat-educativas"><span>c. Matemáticas Educativas</span></label>
+        <label class="option-card"><input type="radio" name="opcion" value="nuclear"><span>d. Ingeniería Nuclear</span></label>
+      </div>
+      <div class="error-msg" id="err-opcion">Selecciona una opción</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goToOpcion()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ STEP FÍSICA: SEMESTRE ══ -->
+  <div class="step" id="step-fisica-sem">
+    <div class="step-title">02 · Opción Física</div>
+    <div class="field">
+      <label>Semestre actual <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="semFisica" value="5"><span>Quinto semestre</span></label>
+        <label class="option-card"><input type="radio" name="semFisica" value="6"><span>Sexto semestre</span></label>
+        <label class="option-card"><input type="radio" name="semFisica" value="7"><span>Séptimo semestre</span></label>
+        <label class="option-card"><input type="radio" name="semFisica" value="8"><span>Octavo semestre</span></label>
+      </div>
+      <div class="error-msg" id="err-semFisica">Selecciona tu semestre</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-datos')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goFisicaSem()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ FÍSICA 5° ══ -->
+  <div class="step" id="step-fisica-5">
+    <div class="step-title">03 · Física – Quinto Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 5° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f5-ob" value="0542 Física Teórica I"><span>0542 Física Teórica I</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-ob" value="0543 Introducción a Física Moderna"><span>0543 Introducción a Física Moderna</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-ob" value="0545 Laboratorio I"><span>0545 Laboratorio I</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-ob" value="0544 Métodos Matemáticos I"><span>0544 Métodos Matemáticos I</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 5° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f5-op" value="Curso Especial"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 6° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f5-op6" value="0644 Métodos Matemáticos I"><span>0644 Métodos Matemáticos I</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-op6" value="0650 Métodos Matemáticos II"><span>0650 Métodos Matemáticos II</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-op6" value="0645 Laboratorio I"><span>0645 Laboratorio I</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-op6" value="0652 Laboratorio II"><span>0652 Laboratorio II</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-op6" value="0659 Laboratorio III"><span>0659 Laboratorio III</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-op6" value="0668 Laboratorio IV"><span>0668 Laboratorio IV</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-op6" value="0651 Electrónica Funcional I"><span>0651 Electrónica Funcional I</span></label>
+        <label class="option-card"><input type="checkbox" name="f5-op6" value="Curso Especial 6°"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="f5-comentarios" placeholder="Opcional">
+    </div>
+    <div class="field">
+      <label>¿Planeas cursar alguna materia de la Opción Matemáticas? <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="f5-mat" value="si"><span>Sí</span></label>
+        <label class="option-card"><input type="radio" name="f5-mat" value="no"><span>No</span></label>
+      </div>
+      <div class="error-msg" id="err-f5-mat">Selecciona una opción</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-fisica-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goFisicaMatOpt('f5-mat')">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ FÍSICA 6° ══ -->
+  <div class="step" id="step-fisica-6">
+    <div class="step-title">03 · Física – Sexto Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 6° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f6-ob" value="0648 Física Teórica II"><span>0648 Física Teórica II</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-ob" value="0649 Mecánica Cuántica I"><span>0649 Mecánica Cuántica I</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 6° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f6-op" value="0644 Métodos Matemáticos I"><span>0644 Métodos Matemáticos I</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op" value="0650 Métodos Matemáticos II"><span>0650 Métodos Matemáticos II</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op" value="0645 Laboratorio I"><span>0645 Laboratorio I</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op" value="0652 Laboratorio II"><span>0652 Laboratorio II</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op" value="0659 Laboratorio III"><span>0659 Laboratorio III</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op" value="0668 Laboratorio IV"><span>0668 Laboratorio IV</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op" value="0651 Electrónica Funcional I"><span>0651 Electrónica Funcional I</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op" value="Curso Especial"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 7° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f6-op7" value="0750 Métodos Matemáticos II"><span>0750 Métodos Matemáticos II</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op7" value="0757 Intro. Física Estado Sólido"><span>0757 Intro. Física Estado Sólido</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op7" value="0760 Teoría del Control I"><span>0760 Teoría del Control I</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op7" value="0758 Electrónica Funcional II"><span>0758 Electrónica Funcional II</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op7" value="0752 Laboratorio II"><span>0752 Laboratorio II</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op7" value="0759 Laboratorio III"><span>0759 Laboratorio III</span></label>
+        <label class="option-card"><input type="checkbox" name="f6-op7" value="0768 Laboratorio IV"><span>0768 Laboratorio IV</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="f6-comentarios" placeholder="Opcional">
+    </div>
+    <div class="field">
+      <label>¿Planeas cursar alguna materia de la Opción Matemáticas? <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="f6-mat" value="si"><span>Sí</span></label>
+        <label class="option-card"><input type="radio" name="f6-mat" value="no"><span>No</span></label>
+      </div>
+      <div class="error-msg" id="err-f6-mat">Selecciona una opción</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-fisica-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goFisicaMatOpt('f6-mat')">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ FÍSICA 7° ══ -->
+  <div class="step" id="step-fisica-7">
+    <div class="step-title">03 · Física – Séptimo Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 7° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f7-ob" value="0755 Física Teórica III"><span>0755 Física Teórica III</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-ob" value="0756 Mecánica Cuántica II"><span>0756 Mecánica Cuántica II</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 7° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f7-op" value="0750 Métodos Matemáticos II"><span>0750 Métodos Matemáticos II</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op" value="0757 Intro. Física Estado Sólido"><span>0757 Intro. Física Estado Sólido</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op" value="0760 Teoría del Control I"><span>0760 Teoría del Control I</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op" value="0758 Electrónica Funcional II"><span>0758 Electrónica Funcional II</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op" value="0752 Laboratorio II"><span>0752 Laboratorio II</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op" value="0759 Laboratorio III"><span>0759 Laboratorio III</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op" value="0768 Laboratorio IV"><span>0768 Laboratorio IV</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op" value="Curso Especial"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 8° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f7-op8" value="0863 Física Teórica IV"><span>0863 Física Teórica IV</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op8" value="0865 Radiación y Propagación"><span>0865 Radiación y Propagación</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op8" value="0866 Física Atómica y Molecular"><span>0866 Física Atómica y Molecular</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op8" value="0867 Intro. Física Nuclear y Partículas"><span>0867 Intro. Física Nuclear y Partículas</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op8" value="0869 Teoría del Control II"><span>0869 Teoría del Control II</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op8" value="0852 Laboratorio II"><span>0852 Laboratorio II</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op8" value="0859 Laboratorio III"><span>0859 Laboratorio III</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-op8" value="0868 Laboratorio IV"><span>0868 Laboratorio IV</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Solo si elegiste Laboratorio IV</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f7-lab4" value="Lab. Procesamiento materiales semiconductores - Dr. Jorge Sastre Hernández"><span>Lab. Procesamiento materiales semiconductores – Dr. Jorge Sastre Hernández</span></label>
+        <label class="option-card"><input type="checkbox" name="f7-lab4" value="Difracción de Rayos X - Dr. Jesús Palacios Gómez"><span>Difracción de Rayos X – Dr. Jesús Palacios Gómez</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="f7-comentarios" placeholder="Opcional">
+    </div>
+    <div class="field">
+      <label>¿Planeas cursar alguna materia de la Opción Matemáticas? <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="f7-mat" value="si"><span>Sí</span></label>
+        <label class="option-card"><input type="radio" name="f7-mat" value="no"><span>No</span></label>
+      </div>
+      <div class="error-msg" id="err-f7-mat">Selecciona una opción</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-fisica-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goFisicaMatOpt('f7-mat')">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ FÍSICA 8° ══ -->
+  <div class="step" id="step-fisica-8">
+    <div class="step-title">03 · Física – Octavo Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 8° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f8-ob" value="0864 Física Estadística"><span>0864 Física Estadística</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 8° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f8-op" value="0863 Física Teórica IV"><span>0863 Física Teórica IV</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-op" value="0865 Radiación y Propagación"><span>0865 Radiación y Propagación</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-op" value="0866 Física Atómica y Molecular"><span>0866 Física Atómica y Molecular</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-op" value="0867 Intro. Física Nuclear y Partículas"><span>0867 Intro. Física Nuclear y Partículas</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-op" value="0869 Teoría del Control II"><span>0869 Teoría del Control II</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-op" value="0852 Laboratorio II"><span>0852 Laboratorio II</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-op" value="0859 Laboratorio III"><span>0859 Laboratorio III</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-op" value="0868 Laboratorio IV"><span>0868 Laboratorio IV</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-op" value="Curso Especial"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Solo si elegiste Laboratorio IV</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="f8-lab4" value="Lab. Procesamiento materiales semiconductores - Dr. Jorge Sastre Hernández"><span>Lab. Procesamiento materiales semiconductores – Dr. Jorge Sastre Hernández</span></label>
+        <label class="option-card"><input type="checkbox" name="f8-lab4" value="Difracción de Rayos X - Dr. Jesús Palacios Gómez"><span>Difracción de Rayos X – Dr. Jesús Palacios Gómez</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="f8-comentarios" placeholder="Opcional">
+    </div>
+    <div class="field">
+      <label>¿Planeas cursar alguna materia de la Opción Matemáticas? <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="f8-mat" value="si"><span>Sí</span></label>
+        <label class="option-card"><input type="radio" name="f8-mat" value="no"><span>No</span></label>
+      </div>
+      <div class="error-msg" id="err-f8-mat">Selecciona una opción</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-fisica-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goFisicaMatOpt('f8-mat')">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ FÍSICA: MATERIAS DE MATEMÁTICAS OPCIONALES ══ -->
+  <div class="step" id="step-fisica-mat-opt">
+    <div class="step-title">04 · Materias de Matemáticas (Física)</div>
+    <div class="info-box">Selecciona las materias de Matemáticas que planeas cursar (máximo 2, al menos una en 5° o 6°).</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">5° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="fmat-5" value="0503 Geometría Diferencial I"><span>0503 Geometría Diferencial I</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-5" value="0504 Lenguaje Ensamblador"><span>0504 Lenguaje Ensamblador</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-5" value="0505 Probabilidad I"><span>0505 Probabilidad I</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-5" value="0506 Métodos Numéricos"><span>0506 Métodos Numéricos</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">6° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="fmat-6" value="0602 Intro. Funciones de Variable Compleja"><span>0602 Intro. Funciones de Variable Compleja</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-6" value="0603 Álgebra Moderna II"><span>0603 Álgebra Moderna II</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-6" value="0604 Geometría Diferencial II"><span>0604 Geometría Diferencial II</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-6" value="0605 Introducción a Sistemas"><span>0605 Introducción a Sistemas</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-6" value="0606 Programación Lineal"><span>0606 Programación Lineal</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-6" value="0607 Probabilidad II"><span>0607 Probabilidad II</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-6" value="0608 Análisis Numérico I"><span>0608 Análisis Numérico I</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">7° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0719 Análisis Matemático III"><span>0719 Análisis Matemático III</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0720 Funciones de Variable Compleja I"><span>0720 Funciones de Variable Compleja I</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0721 Teoría de Ecuaciones Diferenciales I"><span>0721 Teoría de Ecuaciones Diferenciales I</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0722 Álgebra Moderna III"><span>0722 Álgebra Moderna III</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0723 Geometría Diferencial III"><span>0723 Geometría Diferencial III</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0724 Topología I"><span>0724 Topología I</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0725 Fundamentos de Computación"><span>0725 Fundamentos de Computación</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0726 Investigación de Operaciones I"><span>0726 Investigación de Operaciones I</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0727 Estadística I"><span>0727 Estadística I</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-7" value="0728 Análisis Numérico II"><span>0728 Análisis Numérico II</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">8° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0831 Análisis Matemático IV"><span>0831 Análisis Matemático IV</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0832 Funciones de Variable Compleja II"><span>0832 Funciones de Variable Compleja II</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0833 Teoría de Ecuaciones Diferenciales II"><span>0833 Teoría de Ecuaciones Diferenciales II</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0834 Álgebra Moderna IV"><span>0834 Álgebra Moderna IV</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0835 Topología II"><span>0835 Topología II</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0836 Arquitectura de una Computadora"><span>0836 Arquitectura de una Computadora</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0837 Investigación de Operaciones II"><span>0837 Investigación de Operaciones II</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0838 Estadística II"><span>0838 Estadística II</span></label>
+        <label class="option-card"><input type="checkbox" name="fmat-8" value="0839 Análisis Numérico III"><span>0839 Análisis Numérico III</span></label>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="backToFisicaSem()">← Atrás</button>
+      <button class="btn btn-primary" onclick="submitForm()">Enviar ✓</button>
+    </div>
+  </div>
+
+  <!-- ══ MATEMÁTICAS: SEMESTRE ══ -->
+  <div class="step" id="step-mat-sem">
+    <div class="step-title">02 · Opción Matemáticas</div>
+    <div class="field">
+      <label>Semestre actual <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="semMat" value="5"><span>Quinto semestre</span></label>
+        <label class="option-card"><input type="radio" name="semMat" value="6"><span>Sexto semestre</span></label>
+        <label class="option-card"><input type="radio" name="semMat" value="7"><span>Séptimo semestre</span></label>
+        <label class="option-card"><input type="radio" name="semMat" value="8"><span>Octavo semestre</span></label>
+      </div>
+      <div class="error-msg" id="err-semMat">Selecciona tu semestre</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-datos')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goMatSem()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ MATEMÁTICAS 5° ══ -->
+  <div class="step" id="step-mat-5">
+    <div class="step-title">03 · Matemáticas – Quinto Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 5° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m5-ob" value="0501 Análisis Matemático I"><span>0501 Análisis Matemático I</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-ob" value="0502 Álgebra Moderna I"><span>0502 Álgebra Moderna I</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 5° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m5-op" value="0503 Geometría Diferencial I"><span>0503 Geometría Diferencial I</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op" value="0504 Lenguaje Ensamblador"><span>0504 Lenguaje Ensamblador</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op" value="0505 Probabilidad I"><span>0505 Probabilidad I</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op" value="0506 Métodos Numéricos"><span>0506 Métodos Numéricos</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op" value="Curso Especial"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 6° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m5-op6" value="0602 Intro. Funciones de Variable Compleja"><span>0602 Intro. Funciones de Variable Compleja</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op6" value="0603 Álgebra Moderna II"><span>0603 Álgebra Moderna II</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op6" value="0604 Geometría Diferencial II"><span>0604 Geometría Diferencial II</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op6" value="0605 Introducción a Sistemas"><span>0605 Introducción a Sistemas</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op6" value="0606 Programación Lineal"><span>0606 Programación Lineal</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op6" value="0607 Probabilidad II"><span>0607 Probabilidad II</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op6" value="0608 Análisis Numérico I"><span>0608 Análisis Numérico I</span></label>
+        <label class="option-card"><input type="checkbox" name="m5-op6" value="Curso Especial 6°"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="m5-comentarios" placeholder="Opcional">
+    </div>
+    <div class="field">
+      <label>¿Planeas cursar alguna materia de la Opción Física? <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="m5-fis" value="si"><span>Sí</span></label>
+        <label class="option-card"><input type="radio" name="m5-fis" value="no"><span>No</span></label>
+      </div>
+      <div class="error-msg" id="err-m5-fis">Selecciona una opción</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-mat-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goMatFisOpt('m5-fis')">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ MATEMÁTICAS 6° ══ -->
+  <div class="step" id="step-mat-6">
+    <div class="step-title">03 · Matemáticas – Sexto Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 6° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m6-ob" value="0601 Análisis Matemático II"><span>0601 Análisis Matemático II</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 6° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m6-op" value="0602 Intro. Funciones de Variable Compleja"><span>0602 Intro. Funciones de Variable Compleja</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op" value="0603 Álgebra Moderna II"><span>0603 Álgebra Moderna II</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op" value="0604 Geometría Diferencial II"><span>0604 Geometría Diferencial II</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op" value="0605 Introducción a Sistemas"><span>0605 Introducción a Sistemas</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op" value="0606 Programación Lineal"><span>0606 Programación Lineal</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op" value="0607 Probabilidad II"><span>0607 Probabilidad II</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op" value="0608 Análisis Numérico I"><span>0608 Análisis Numérico I</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op" value="Curso Especial"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 7° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0719 Análisis Matemático III"><span>0719 Análisis Matemático III</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0720 Funciones de Variable Compleja I"><span>0720 Funciones de Variable Compleja I</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0721 Teoría de Ecuaciones Diferenciales I"><span>0721 Teoría de Ecuaciones Diferenciales I</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0722 Álgebra Moderna III"><span>0722 Álgebra Moderna III</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0723 Geometría Diferencial III"><span>0723 Geometría Diferencial III</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0724 Topología I"><span>0724 Topología I</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0725 Fundamentos de Computación"><span>0725 Fundamentos de Computación</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0726 Investigación de Operaciones I"><span>0726 Investigación de Operaciones I</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0727 Estadística I"><span>0727 Estadística I</span></label>
+        <label class="option-card"><input type="checkbox" name="m6-op7" value="0728 Análisis Numérico II"><span>0728 Análisis Numérico II</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="m6-comentarios" placeholder="Opcional">
+    </div>
+    <div class="field">
+      <label>¿Planeas cursar alguna materia de la Opción Física? <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="m6-fis" value="si"><span>Sí</span></label>
+        <label class="option-card"><input type="radio" name="m6-fis" value="no"><span>No</span></label>
+      </div>
+      <div class="error-msg" id="err-m6-fis">Selecciona una opción</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-mat-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goMatFisOpt('m6-fis')">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ MATEMÁTICAS 7° ══ -->
+  <div class="step" id="step-mat-7">
+    <div class="step-title">03 · Matemáticas – Séptimo Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 7° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0719 Análisis Matemático III"><span>0719 Análisis Matemático III</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0720 Funciones de Variable Compleja I"><span>0720 Funciones de Variable Compleja I</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0721 Teoría de Ecuaciones Diferenciales I"><span>0721 Teoría de Ecuaciones Diferenciales I</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0722 Álgebra Moderna III"><span>0722 Álgebra Moderna III</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0723 Geometría Diferencial III"><span>0723 Geometría Diferencial III</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0724 Topología I"><span>0724 Topología I</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0725 Fundamentos de Computación"><span>0725 Fundamentos de Computación</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0726 Investigación de Operaciones I"><span>0726 Investigación de Operaciones I</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0727 Estadística I"><span>0727 Estadística I</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="0728 Análisis Numérico II"><span>0728 Análisis Numérico II</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op" value="Curso Especial"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 8° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0831 Análisis Matemático IV"><span>0831 Análisis Matemático IV</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0832 Funciones de Variable Compleja II"><span>0832 Funciones de Variable Compleja II</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0833 Teoría de Ecuaciones Diferenciales II"><span>0833 Teoría de Ecuaciones Diferenciales II</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0834 Álgebra Moderna IV"><span>0834 Álgebra Moderna IV</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0835 Topología II"><span>0835 Topología II</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0836 Arquitectura de una Computadora"><span>0836 Arquitectura de una Computadora</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0837 Investigación de Operaciones II"><span>0837 Investigación de Operaciones II</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0838 Estadística II"><span>0838 Estadística II</span></label>
+        <label class="option-card"><input type="checkbox" name="m7-op8" value="0839 Análisis Numérico III"><span>0839 Análisis Numérico III</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="m7-comentarios" placeholder="Opcional">
+    </div>
+    <div class="field">
+      <label>¿Planeas cursar alguna materia de la Opción Física? <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="m7-fis" value="si"><span>Sí</span></label>
+        <label class="option-card"><input type="radio" name="m7-fis" value="no"><span>No</span></label>
+      </div>
+      <div class="error-msg" id="err-m7-fis">Selecciona una opción</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-mat-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goMatFisOpt('m7-fis')">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ MATEMÁTICAS 8° ══ -->
+  <div class="step" id="step-mat-8">
+    <div class="step-title">03 · Matemáticas – Octavo Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 8° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0831 Análisis Matemático IV"><span>0831 Análisis Matemático IV</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0832 Funciones de Variable Compleja II"><span>0832 Funciones de Variable Compleja II</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0833 Teoría de Ecuaciones Diferenciales II"><span>0833 Teoría de Ecuaciones Diferenciales II</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0834 Álgebra Moderna IV"><span>0834 Álgebra Moderna IV</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0835 Topología II"><span>0835 Topología II</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0836 Arquitectura de una Computadora"><span>0836 Arquitectura de una Computadora</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0837 Investigación de Operaciones II"><span>0837 Investigación de Operaciones II</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0838 Estadística II"><span>0838 Estadística II</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="0839 Análisis Numérico III"><span>0839 Análisis Numérico III</span></label>
+        <label class="option-card"><input type="checkbox" name="m8-op" value="Curso Especial"><span>Curso Especial</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="m8-comentarios" placeholder="Opcional">
+    </div>
+    <div class="field">
+      <label>¿Planeas cursar alguna materia de la Opción Física? <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="m8-fis" value="si"><span>Sí</span></label>
+        <label class="option-card"><input type="radio" name="m8-fis" value="no"><span>No</span></label>
+      </div>
+      <div class="error-msg" id="err-m8-fis">Selecciona una opción</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-mat-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goMatFisOpt('m8-fis')">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ MATEMÁTICAS: MATERIAS DE FÍSICA OPCIONALES ══ -->
+  <div class="step" id="step-mat-fis-opt">
+    <div class="step-title">04 · Materias de Física (Matemáticas)</div>
+    <div class="info-box">Selecciona las materias de Física que planeas cursar (máximo 2, al menos una en 5° o 6°).</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">5° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="mfis-5" value="0542 Física Teórica I"><span>0542 Física Teórica I</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-5" value="0543 Introducción a Física Moderna"><span>0543 Introducción a Física Moderna</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-5" value="0545 Laboratorio I"><span>0545 Laboratorio I</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-5" value="0544 Métodos Matemáticos I"><span>0544 Métodos Matemáticos I</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">6° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="mfis-6" value="0648 Física Teórica II"><span>0648 Física Teórica II</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-6" value="0649 Mecánica Cuántica I"><span>0649 Mecánica Cuántica I</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-6" value="0644 Métodos Matemáticos I"><span>0644 Métodos Matemáticos I</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-6" value="0650 Métodos Matemáticos II"><span>0650 Métodos Matemáticos II</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-6" value="0651 Electrónica Funcional I"><span>0651 Electrónica Funcional I</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">7° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="mfis-7" value="0755 Física Teórica III"><span>0755 Física Teórica III</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-7" value="0756 Mecánica Cuántica II"><span>0756 Mecánica Cuántica II</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-7" value="0757 Intro. Física Estado Sólido"><span>0757 Intro. Física Estado Sólido</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-7" value="0760 Teoría del Control I"><span>0760 Teoría del Control I</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-7" value="0758 Electrónica Funcional II"><span>0758 Electrónica Funcional II</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">8° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="mfis-8" value="0864 Física Estadística"><span>0864 Física Estadística</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-8" value="0863 Física Teórica IV"><span>0863 Física Teórica IV</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-8" value="0865 Radiación y Propagación"><span>0865 Radiación y Propagación</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-8" value="0866 Física Atómica y Molecular"><span>0866 Física Atómica y Molecular</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-8" value="0867 Intro. Física Nuclear y Partículas"><span>0867 Intro. Física Nuclear y Partículas</span></label>
+        <label class="option-card"><input type="checkbox" name="mfis-8" value="0869 Teoría del Control II"><span>0869 Teoría del Control II</span></label>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="backToMatSem()">← Atrás</button>
+      <button class="btn btn-primary" onclick="submitForm()">Enviar ✓</button>
+    </div>
+  </div>
+
+  <!-- ══ MATEMÁTICAS EDUCATIVAS: SEMESTRE ══ -->
+  <div class="step" id="step-mated-sem">
+    <div class="step-title">02 · Opción Matemáticas Educativas</div>
+    <div class="field">
+      <label>Semestre actual <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="semMatEd" value="5"><span>Quinto semestre</span></label>
+        <label class="option-card"><input type="radio" name="semMatEd" value="6"><span>Sexto semestre</span></label>
+        <label class="option-card"><input type="radio" name="semMatEd" value="7"><span>Séptimo semestre</span></label>
+        <label class="option-card"><input type="radio" name="semMatEd" value="8"><span>Octavo semestre</span></label>
+      </div>
+      <div class="error-msg" id="err-semMatEd">Selecciona tu semestre</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-datos')">← Atrás</button>
+      <button class="btn btn-primary" onclick="goMatEdSem()">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ══ MAT. EDUCATIVAS 5° ══ -->
+  <div class="step" id="step-mated-5">
+    <div class="step-title">03 · Matemáticas Educativas – Quinto Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 5° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me5-ob" value="0572 Análisis"><span>0572 Análisis</span></label>
+        <label class="option-card"><input type="checkbox" name="me5-ob" value="0574 Didáctica General"><span>0574 Didáctica General</span></label>
+        <label class="option-card"><input type="checkbox" name="me5-ob" value="0575 Historia de las Matemáticas"><span>0575 Historia de las Matemáticas</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 5° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me5-op" value="0573 Álgebra y Geometría"><span>0573 Álgebra y Geometría</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 6° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me5-op6" value="0676 Tópicos en Ecuaciones Diferenciales I"><span>0676 Tópicos en Ecuaciones Diferenciales I</span></label>
+        <label class="option-card"><input type="checkbox" name="me5-op6" value="0677 Geometría I"><span>0677 Geometría I</span></label>
+        <label class="option-card"><input type="checkbox" name="me5-op6" value="0602 Intro. Funciones de Variable Compleja"><span>0602 Intro. Funciones de Variable Compleja</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="me5-comentarios" placeholder="Opcional">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-mated-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="submitForm()">Enviar ✓</button>
+    </div>
+  </div>
+
+  <!-- ══ MAT. EDUCATIVAS 6° ══ -->
+  <div class="step" id="step-mated-6">
+    <div class="step-title">03 · Matemáticas Educativas – Sexto Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 6° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me6-ob" value="0678 Probabilidad y Estadística I"><span>0678 Probabilidad y Estadística I</span></label>
+        <label class="option-card"><input type="checkbox" name="me6-ob" value="0679 Taller Pedagógico I"><span>0679 Taller Pedagógico I</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 6° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me6-op" value="0676 Tópicos en Ecuaciones Diferenciales I"><span>0676 Tópicos en Ecuaciones Diferenciales I</span></label>
+        <label class="option-card"><input type="checkbox" name="me6-op" value="0677 Geometría I"><span>0677 Geometría I</span></label>
+        <label class="option-card"><input type="checkbox" name="me6-op" value="0602 Intro. Funciones de Variable Compleja"><span>0602 Intro. Funciones de Variable Compleja</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 7° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me6-op7" value="0780 Tópicos en Ecuaciones Diferenciales II"><span>0780 Tópicos en Ecuaciones Diferenciales II</span></label>
+        <label class="option-card"><input type="checkbox" name="me6-op7" value="0781 Geometría II"><span>0781 Geometría II</span></label>
+        <label class="option-card"><input type="checkbox" name="me6-op7" value="0782 Probabilidad y Estadística II"><span>0782 Probabilidad y Estadística II</span></label>
+        <label class="option-card"><input type="checkbox" name="me6-op7" value="0784 Seminario Problemática Educativa Nacional"><span>0784 Seminario Problemática Educativa Nacional</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="me6-comentarios" placeholder="Opcional">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-mated-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="submitForm()">Enviar ✓</button>
+    </div>
+  </div>
+
+  <!-- ══ MAT. EDUCATIVAS 7° ══ -->
+  <div class="step" id="step-mated-7">
+    <div class="step-title">03 · Matemáticas Educativas – Séptimo Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 7° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me7-ob" value="0783 Taller Pedagógico II"><span>0783 Taller Pedagógico II</span></label>
+        <label class="option-card"><input type="checkbox" name="me7-ob" value="0785 Filosofía de la Ciencia I"><span>0785 Filosofía de la Ciencia I</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 7° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me7-op" value="0780 Tópicos en Ecuaciones Diferenciales II"><span>0780 Tópicos en Ecuaciones Diferenciales II</span></label>
+        <label class="option-card"><input type="checkbox" name="me7-op" value="0781 Geometría II"><span>0781 Geometría II</span></label>
+        <label class="option-card"><input type="checkbox" name="me7-op" value="0782 Probabilidad y Estadística II"><span>0782 Probabilidad y Estadística II</span></label>
+        <label class="option-card"><input type="checkbox" name="me7-op" value="0784 Seminario Problemática Educativa Nacional"><span>0784 Seminario Problemática Educativa Nacional</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 8° semestre (adelanto)</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me7-op8" value="0886 Variable Compleja"><span>0886 Variable Compleja</span></label>
+        <label class="option-card"><input type="checkbox" name="me7-op8" value="0888 Temas Aplicativos de la Matemática"><span>0888 Temas Aplicativos de la Matemática</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="me7-comentarios" placeholder="Opcional">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-mated-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="submitForm()">Enviar ✓</button>
+    </div>
+  </div>
+
+  <!-- ══ MAT. EDUCATIVAS 8° ══ -->
+  <div class="step" id="step-mated-8">
+    <div class="step-title">03 · Matemáticas Educativas – Octavo Semestre</div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Obligatorias de 8° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me8-ob" value="0887 Filosofía de la Ciencia II"><span>0887 Filosofía de la Ciencia II</span></label>
+      </div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Optativas de 8° semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="me8-op" value="0886 Variable Compleja"><span>0886 Variable Compleja</span></label>
+        <label class="option-card"><input type="checkbox" name="me8-op" value="0888 Temas Aplicativos de la Matemática"><span>0888 Temas Aplicativos de la Matemática</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="me8-comentarios" placeholder="Opcional">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-mated-sem')">← Atrás</button>
+      <button class="btn btn-primary" onclick="submitForm()">Enviar ✓</button>
+    </div>
+  </div>
+
+  <!-- ══ INGENIERÍA NUCLEAR ══ -->
+  <div class="step" id="step-nuclear">
+    <div class="step-title">02 · Opción Ingeniería Nuclear</div>
+    <div class="info-box">Todas las materias son obligatorias. Confirma las que cursarás el próximo semestre.</div>
+    <div class="field">
+      <label>Semestre actual <span class="req">*</span></label>
+      <div class="options-grid">
+        <label class="option-card"><input type="radio" name="semNuclear" value="5"><span>Quinto semestre</span></label>
+        <label class="option-card"><input type="radio" name="semNuclear" value="6"><span>Sexto semestre</span></label>
+        <label class="option-card"><input type="radio" name="semNuclear" value="7"><span>Séptimo semestre</span></label>
+        <label class="option-card"><input type="radio" name="semNuclear" value="8"><span>Octavo semestre</span></label>
+      </div>
+      <div class="error-msg" id="err-semNuclear">Selecciona tu semestre</div>
+    </div>
+    <div class="checkbox-group">
+      <div class="checkbox-group-title">Materias a cursar el próximo semestre</div>
+      <div class="options-grid">
+        <label class="option-card"><input type="checkbox" name="nuc" value="0542 Física Teórica I"><span>0542 Física Teórica I</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0543 Introducción a Física Moderna"><span>0543 Introducción a Física Moderna</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0506 Métodos Numéricos"><span>0506 Métodos Numéricos</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0590 Introducción a la Ingeniería Nuclear"><span>0590 Introducción a la Ingeniería Nuclear</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0649 Mecánica Cuántica I"><span>0649 Mecánica Cuántica I</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0605 Probabilidad I"><span>0605 Probabilidad I</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0691 Termodinámica de Ciclos de Potencia"><span>0691 Termodinámica de Ciclos de Potencia</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0692 Transferencia de Calor"><span>0692 Transferencia de Calor</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0755 Física Teórica III"><span>0755 Física Teórica III</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0756 Mecánica Cuántica II"><span>0756 Mecánica Cuántica II</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0793 Ingeniería Nuclear I"><span>0793 Ingeniería Nuclear I</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0794 Teoría de Reactores Nucleares I"><span>0794 Teoría de Reactores Nucleares I</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0859 Laboratorio III"><span>0859 Laboratorio III</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0895 Ingeniería Nuclear II"><span>0895 Ingeniería Nuclear II</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0896 Teoría de Reactores Nucleares II"><span>0896 Teoría de Reactores Nucleares II</span></label>
+        <label class="option-card"><input type="checkbox" name="nuc" value="0897 Protección Radiológica"><span>0897 Protección Radiológica</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Comentarios:</label>
+      <input type="text" id="nuc-comentarios" placeholder="Opcional">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="back('step-datos')">← Atrás</button>
+      <button class="btn btn-primary" onclick="submitNuclear()">Enviar ✓</button>
+    </div>
+  </div>
+
+  <!-- ══ SUCCESS ══ -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✅</div>
+    <h2>¡Registro completado!</h2>
+    <p>Tu información ha sido guardada correctamente.</p>
+    <br>
+    <div id="resumen-datos" style="text-align:left; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:1.2rem; font-size:0.82rem; line-height:1.8; font-family:var(--mono); max-width:500px; margin:1rem auto;"></div>
+    <br>
+    <button class="btn btn-secondary" onclick="location.reload()" style="margin-top:1rem;">Nueva respuesta</button>
+  </div>
+
+</div><!-- /form-container -->
+
+<script>
+// ── Estado global ──
+var currentStep = 'step-datos';
+var currentFisicaSemStep = null;
+var currentMatSemStep = null;
+
+// ── Navegación base ──
+function showStep(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  var el = document.getElementById(id);
+  if (el) { el.classList.add('active'); currentStep = id; }
+  updateProgress();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function back(stepId) {
+  showStep(stepId);
+}
+
+function updateProgress() {
+  var steps = ['step-datos','step-fisica-sem','step-fisica-5','step-fisica-6','step-fisica-7','step-fisica-8','step-fisica-mat-opt',
+               'step-mat-sem','step-mat-5','step-mat-6','step-mat-7','step-mat-8','step-mat-fis-opt',
+               'step-mated-sem','step-mated-5','step-mated-6','step-mated-7','step-mated-8','step-nuclear'];
+  var idx = steps.indexOf(currentStep);
+  var pct = idx < 0 ? 0 : Math.round(((idx+1)/steps.length)*100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// ── Resaltar opción seleccionada ──
+document.addEventListener('change', function(e) {
+  if (e.target.type === 'radio') {
+    var group = e.target.closest('.options-grid');
+    if (group) {
+      group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+      e.target.closest('.option-card').classList.add('selected');
+    }
+  }
+  if (e.target.type === 'checkbox') {
+    e.target.closest('.option-card').classList.toggle('selected', e.target.checked);
+  }
+});
+
+// ── Validaciones ──
+function getRadio(name) {
+  var r = document.querySelector('input[name="'+name+'"]:checked');
+  return r ? r.value : null;
+}
+
+function showErr(id, show) {
+  var el = document.getElementById(id);
+  if (el) el.classList.toggle('show', show);
+}
+
+function validateText(id, errId) {
+  var val = document.getElementById(id).value.trim();
+  showErr(errId, !val);
+  return !!val;
+}
+
+function validateEmail(id, errId) {
+  var val = document.getElementById(id).value.trim();
+  var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  showErr(errId, !ok);
+  return ok;
+}
+
+function validateRadio(name, errId) {
+  var ok = !!getRadio(name);
+  showErr(errId, !ok);
+  return ok;
+}
+
+// ── Paso 1: Datos → opción ──
+function goToOpcion() {
+  var ok = true;
+  ok = validateText('nombres','err-nombres') && ok;
+  ok = validateText('apPaterno','err-apPaterno') && ok;
+  ok = validateText('apMaterno','err-apMaterno') && ok;
+  ok = validateText('boleta','err-boleta') && ok;
+  ok = validateEmail('correo','err-correo') && ok;
+  ok = validateRadio('opcion','err-opcion') && ok;
+  if (!ok) return;
+
+  var opcion = getRadio('opcion');
+  if (opcion === 'fisica')         showStep('step-fisica-sem');
+  else if (opcion === 'matematicas') showStep('step-mat-sem');
+  else if (opcion === 'mat-educativas') showStep('step-mated-sem');
+  else if (opcion === 'nuclear')   showStep('step-nuclear');
+}
+
+// ── Física: semestre ──
+function goFisicaSem() {
+  if (!validateRadio('semFisica','err-semFisica')) return;
+  var sem = getRadio('semFisica');
+  currentFisicaSemStep = 'step-fisica-' + sem;
+  showStep(currentFisicaSemStep);
+}
+
+// ── Física: ¿materias de Matemáticas? ──
+function goFisicaMatOpt(radioName) {
+  var errId = 'err-' + radioName;
+  if (!validateRadio(radioName, errId)) return;
+  var val = getRadio(radioName);
+  if (val === 'si') showStep('step-fisica-mat-opt');
+  else submitForm();
+}
+
+function backToFisicaSem() {
+  showStep(currentFisicaSemStep || 'step-fisica-sem');
+}
+
+// ── Matemáticas: semestre ──
+function goMatSem() {
+  if (!validateRadio('semMat','err-semMat')) return;
+  var sem = getRadio('semMat');
+  currentMatSemStep = 'step-mat-' + sem;
+  showStep(currentMatSemStep);
+}
+
+// ── Matemáticas: ¿materias de Física? ──
+function goMatFisOpt(radioName) {
+  var errId = 'err-' + radioName;
+  if (!validateRadio(radioName, errId)) return;
+  var val = getRadio(radioName);
+  if (val === 'si') showStep('step-mat-fis-opt');
+  else submitForm();
+}
+
+function backToMatSem() {
+  showStep(currentMatSemStep || 'step-mat-sem');
+}
+
+// ── Mat. Educativas: semestre ──
+function goMatEdSem() {
+  if (!validateRadio('semMatEd','err-semMatEd')) return;
+  var sem = getRadio('semMatEd');
+  showStep('step-mated-' + sem);
+}
+
+// ── Nuclear ──
+function submitNuclear() {
+  if (!validateRadio('semNuclear','err-semNuclear')) return;
+  submitForm();
+}
+
+// ── Envío final ──
+function submitForm() {
+  // Recopilar datos
+  var datos = {
+    nombres: document.getElementById('nombres').value.trim(),
+    apPaterno: document.getElementById('apPaterno').value.trim(),
+    apMaterno: document.getElementById('apMaterno').value.trim(),
+    boleta: document.getElementById('boleta').value.trim(),
+    correo: document.getElementById('correo').value.trim(),
+    opcion: getRadio('opcion')
+  };
+
+  // Recopilar checkboxes seleccionados
+  var materias = [];
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(function(cb) {
+    materias.push(cb.value);
+  });
+
+  // Mostrar resumen
+  var resumen = '<strong>Alumno:</strong> ' + datos.nombres + ' ' + datos.apPaterno + ' ' + datos.apMaterno + '<br>' +
+                '<strong>Boleta:</strong> ' + datos.boleta + '<br>' +
+                '<strong>Correo:</strong> ' + datos.correo + '<br>' +
+                '<strong>Opción:</strong> ' + datos.opcion + '<br><br>' +
+                '<strong>Materias seleccionadas:</strong><br>' +
+                (materias.length > 0 ? materias.map(function(m){ return '• ' + m; }).join('<br>') : '(ninguna)');
+
+  document.getElementById('resumen-datos').innerHTML = resumen;
+
+  // Ocultar pasos y mostrar éxito
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('success-screen').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>

@@ -1330,16 +1330,18 @@ function submitForm() {
   document.getElementById('progressFill').style.width = '100%';
   window.scrollTo({top: 0, behavior: 'smooth'});
 
-  // Enviar a Google Sheets
+  // Enviar a Google Sheets via GET
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0MGtyumzckPTP1YUuCriX1gZTuMCSf6xmG0z5dly7agaJsFxV53myXKt0FOiMztlEjQ/exec';
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(datos)
-  }).catch(function(err) {
-    console.error('Error al enviar:', err);
-  });
+  var params = '?nombres=' + encodeURIComponent(datos.nombres) +
+               '&apPaterno=' + encodeURIComponent(datos.apPaterno) +
+               '&apMaterno=' + encodeURIComponent(datos.apMaterno) +
+               '&boleta=' + encodeURIComponent(datos.boleta) +
+               '&correo=' + encodeURIComponent(datos.correo) +
+               '&opcion=' + encodeURIComponent(datos.opcion) +
+               '&semestre=' + encodeURIComponent(datos.semestre) +
+               '&materias=' + encodeURIComponent(datos.materias);
+  var img = new Image();
+  img.src = SCRIPT_URL + params;
 }
 </script>
 </body>

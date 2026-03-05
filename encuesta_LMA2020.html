@@ -14,98 +14,61 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;padding:2rem 1rem 4rem;}
-
 .header{max-width:720px;margin:0 auto 3rem;border-left:3px solid var(--accent);padding-left:1.5rem;}
 .header .tag{font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem;}
 .header h1{font-size:1.5rem;font-weight:600;line-height:1.3;margin-bottom:0.4rem;}
 .header p{font-size:0.85rem;color:var(--muted);}
-
 .form-container{max-width:720px;margin:0 auto;}
 .progress-bar{background:var(--border);height:3px;border-radius:2px;margin-bottom:2.5rem;overflow:hidden;}
 .progress-fill{height:100%;background:var(--accent);transition:width 0.4s ease;border-radius:2px;}
-
 .step{display:none;}
 .step.active{display:block;animation:fadeIn 0.3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
-.step-title{
-  font-family:var(--mono);font-size:0.7rem;color:var(--accent);
-  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1.5rem;
-  display:flex;align-items:center;gap:0.75rem;
-}
+.step-title{font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;}
 .step-title::after{content:'';flex:1;height:1px;background:var(--border);}
-
 .field{margin-bottom:1.5rem;}
 .field label{display:block;font-size:0.82rem;font-weight:500;color:var(--text);margin-bottom:0.5rem;}
 .field label .req{color:var(--accent2);margin-left:3px;}
-.field input[type="text"],.field input[type="email"]{
-  width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;
-  padding:0.65rem 0.9rem;color:var(--text);font-family:var(--sans);font-size:0.9rem;outline:none;transition:border-color 0.2s;
-}
+.field input[type="text"],.field input[type="email"]{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.65rem 0.9rem;color:var(--text);font-family:var(--sans);font-size:0.9rem;outline:none;transition:border-color 0.2s;}
 .field input:focus{border-color:var(--accent);}
-
-/* Semestre grid */
 .sem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;}
 @media(max-width:480px){.sem-grid{grid-template-columns:repeat(2,1fr);}}
-.sem-card{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:var(--surface);border:1px solid var(--border);border-radius:8px;
-  padding:1rem 0.5rem;cursor:pointer;transition:border-color 0.2s,background 0.2s;user-select:none;text-align:center;
-}
+.sem-card{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 0.5rem;cursor:pointer;transition:border-color 0.2s,background 0.2s;user-select:none;text-align:center;}
 .sem-card:hover{border-color:var(--accent);background:#1e1e2a;}
 .sem-card.selected{border-color:var(--accent);background:rgba(91,140,255,0.08);}
 .sem-card input{display:none;}
 .sem-num{font-family:var(--mono);font-size:1.4rem;font-weight:600;color:var(--accent);}
 .sem-label{font-size:0.7rem;color:var(--muted);margin-top:2px;}
-
-/* Option cards */
 .options-grid{display:flex;flex-direction:column;gap:0.5rem;}
-.option-card{
-  display:flex;align-items:flex-start;gap:0.75rem;
-  background:var(--surface);border:1px solid var(--border);border-radius:8px;
-  padding:0.75rem 1rem;cursor:pointer;transition:border-color 0.2s,background 0.2s;user-select:none;
-}
+.option-card{display:flex;align-items:flex-start;gap:0.75rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;cursor:pointer;transition:border-color 0.2s,background 0.2s;user-select:none;}
 .option-card:hover{border-color:var(--accent);background:#1e1e2a;}
 .option-card.selected{border-color:var(--accent);background:rgba(91,140,255,0.08);}
-.option-card input[type="radio"]{
-  appearance:none;width:16px;height:16px;min-width:16px;
-  border:2px solid var(--muted);border-radius:50%;margin-top:1px;
-  cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;
-}
+.option-card input[type="radio"]{appearance:none;width:16px;height:16px;min-width:16px;border:2px solid var(--muted);border-radius:50%;margin-top:1px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;}
 .option-card input[type="radio"]:checked{border-color:var(--accent);background:var(--accent);}
-.option-card input[type="radio"]:checked::after{
-  content:'';position:absolute;width:6px;height:6px;background:white;
-  border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);
-}
+.option-card input[type="radio"]:checked::after{content:'';position:absolute;width:6px;height:6px;background:white;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
 .option-card span{font-size:0.88rem;line-height:1.4;color:var(--text);}
-
-.checkbox-group{margin-bottom:1.5rem;}
-.checkbox-group-title{
-  font-size:0.72rem;font-weight:600;color:var(--muted);margin-bottom:0.6rem;
-  font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;
-}
-
-/* Sem badge en el título del grupo */
-.sem-badge{
-  display:inline-block;font-family:var(--mono);font-size:0.65rem;
-  padding:0.15rem 0.5rem;border-radius:3px;margin-left:0.5rem;vertical-align:middle;
-}
+.bloque-section{margin-bottom:2rem;}
+.bloque-header{font-size:0.72rem;font-weight:600;color:var(--muted);margin-bottom:0.6rem;font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;display:flex;align-items:center;gap:0.5rem;}
+.sem-badge{display:inline-block;font-family:var(--mono);font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:3px;}
 .badge-6{background:rgba(91,140,255,0.15);color:#7aa3ff;}
 .badge-7{background:rgba(74,222,128,0.15);color:#4ade80;}
-
+.section-divider{font-family:var(--mono);font-size:0.7rem;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin:2rem 0 1.5rem;display:flex;align-items:center;gap:0.75rem;}
+.section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.obligatorias-list{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:1.5rem;}
+.obligatorias-list ul{list-style:none;padding:0;}
+.obligatorias-list li{font-size:0.85rem;padding:0.4rem 0;border-bottom:1px solid var(--border);color:var(--text);}
+.obligatorias-list li:last-child{border-bottom:none;}
+.obligatorias-list li::before{content:'→ ';color:var(--accent);font-family:var(--mono);}
 .info-box{background:rgba(91,140,255,0.08);border:1px solid rgba(91,140,255,0.25);border-radius:8px;padding:0.9rem 1rem;font-size:0.82rem;color:#a0b4ff;margin-bottom:1.5rem;line-height:1.5;}
 .warn-box{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.2);border-radius:8px;padding:1.5rem 1rem;font-size:0.88rem;color:#ffaaaa;margin-bottom:1.5rem;line-height:1.7;text-align:center;}
-
 .btn-row{display:flex;gap:0.75rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);}
 .btn{padding:0.7rem 1.6rem;border-radius:6px;font-family:var(--sans);font-size:0.88rem;font-weight:500;cursor:pointer;border:none;transition:all 0.2s;}
 .btn-primary{background:var(--accent);color:white;}
 .btn-primary:hover{background:#7aa3ff;}
 .btn-secondary{background:transparent;color:var(--muted);border:1px solid var(--border);}
 .btn-secondary:hover{color:var(--text);border-color:var(--muted);}
-
 .error-msg{font-size:0.75rem;color:var(--accent2);margin-top:0.4rem;display:none;}
 .error-msg.show{display:block;}
-
 .success-screen{display:none;text-align:center;padding:4rem 2rem;}
 .success-screen.active{display:block;animation:fadeIn 0.4s ease;}
 .success-icon{font-size:3rem;margin-bottom:1rem;}
@@ -116,17 +79,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
 <div class="header">
   <div class="tag">IPN · LMA Plan 2020</div>
-  <h1>Registro de Optativas<br>Lic. en Matemática Algorítmica</h1>
-  <p>Indica las materias optativas que planeas cursar el próximo semestre.</p>
+  <h1>Registro de Materias<br>Lic. en Matemática Algorítmica</h1>
+  <p>Indica las materias que planeas cursar el próximo semestre.</p>
 </div>
 
 <div class="form-container">
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
 
-  <!-- ══ PASO 1: DATOS ══ -->
+  <!-- PASO 1: DATOS -->
   <div class="step active" id="step-datos">
     <div class="step-title">01 · Datos del alumno</div>
-
     <div class="field">
       <label>Nombre(s) <span class="req">*</span></label>
       <input type="text" id="nombres" placeholder="Ej. Juan Carlos">
@@ -152,10 +114,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       <input type="email" id="correo" placeholder="alumno@ipn.mx">
       <div class="error-msg" id="err-correo">Ingresa un correo válido</div>
     </div>
-
     <div class="field">
       <label>Semestre actual <span class="req">*</span></label>
-      <div class="sem-grid" id="sem-grid">
+      <div class="sem-grid">
         <label class="sem-card"><input type="radio" name="semestre" value="1"><div class="sem-num">1°</div><div class="sem-label">Semestre</div></label>
         <label class="sem-card"><input type="radio" name="semestre" value="2"><div class="sem-num">2°</div><div class="sem-label">Semestre</div></label>
         <label class="sem-card"><input type="radio" name="semestre" value="3"><div class="sem-num">3°</div><div class="sem-label">Semestre</div></label>
@@ -167,17 +128,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       </div>
       <div class="error-msg" id="err-semestre">Selecciona tu semestre</div>
     </div>
-
     <div class="btn-row">
       <button class="btn btn-primary" onclick="goToMaterias()">Siguiente →</button>
     </div>
   </div>
 
-  <!-- ══ NO APLICA (1°–4°) ══ -->
+  <!-- NO APLICA (1°–3°) -->
   <div class="step" id="step-no-aplica">
     <div class="step-title">02 · Información</div>
     <div class="warn-box">
-      ⚠️ Las materias optativas de la LMA comienzan en <strong>5° semestre</strong>.<br><br>
+      ⚠️ Las materias optativas de la LMA comienzan en <strong>4° semestre</strong>.<br><br>
       En tu semestre actual el plan de estudios no incluye optativas de elección libre.<br><br>
       Si crees que hay un error, consulta a tu Profesor Consejero.
     </div>
@@ -186,89 +146,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     </div>
   </div>
 
-  <!-- ══ PANTALLA DE OPTATIVAS (dinámica) ══ -->
+  <!-- PANTALLA DE MATERIAS -->
   <div class="step" id="step-optativas">
-    <div class="step-title" id="opt-titulo">02 · Optativas a cursar</div>
+    <div class="step-title" id="opt-titulo">02 · Materias a cursar</div>
     <div class="info-box" id="opt-info"></div>
-
-    <!-- BLOQUE 6°: Optativa A/C -->
-    <div class="checkbox-group" id="bloque-6A" style="display:none;">
-      <div class="checkbox-group-title">
-        Optativa A/C <span class="sem-badge badge-6">6° / 7°</span>
-      </div>
-      <div class="options-grid">
-        <label class="option-card"><input type="radio" name="optA" value="Topología algorítmica"><span>Topología algorítmica</span></label>
-        <label class="option-card"><input type="radio" name="optA" value="Criptología"><span>Criptología</span></label>
-        <label class="option-card"><input type="radio" name="optA" value="Aprendizaje de máquina estadístico"><span>Aprendizaje de máquina estadístico</span></label>
-        <label class="option-card"><input type="radio" name="optA" value="Teoría del riesgo"><span>Teoría del riesgo</span></label>
-        <label class="option-card"><input type="radio" name="optA" value="Teoría de la información"><span>Teoría de la información</span></label>
-        <label class="option-card"><input type="radio" name="optA" value="Análisis complejo"><span>Análisis complejo</span></label>
-        <label class="option-card"><input type="radio" name="optA" value="No la cursaré este semestre"><span>No la cursaré este semestre</span></label>
-      </div>
-      <div class="error-msg" id="err-optA">Selecciona una opción</div>
-    </div>
-
-    <!-- BLOQUE 6°: Optativa B/D -->
-    <div class="checkbox-group" id="bloque-6B" style="display:none;">
-      <div class="checkbox-group-title">
-        Optativa B/D <span class="sem-badge badge-6">6° / 7°</span>
-      </div>
-      <div class="options-grid">
-        <label class="option-card"><input type="radio" name="optB" value="Cómputo de alto desempeño"><span>Cómputo de alto desempeño</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Geometría algorítmica"><span>Geometría algorítmica</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Aprendizaje profundo"><span>Aprendizaje profundo</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Desarrollo de aplicaciones móviles y web"><span>Desarrollo de aplicaciones móviles y web</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Cómputo en la nube"><span>Cómputo en la nube</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Física computacional"><span>Física computacional</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Biología computacional"><span>Biología computacional</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Matrices aleatorias"><span>Matrices aleatorias</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Administración de riesgos financieros"><span>Administración de riesgos financieros</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Teoría de juegos"><span>Teoría de juegos</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="Seguridad digital"><span>Seguridad digital</span></label>
-        <label class="option-card"><input type="radio" name="optB" value="No la cursaré este semestre"><span>No la cursaré este semestre</span></label>
-      </div>
-      <div class="error-msg" id="err-optB">Selecciona una opción</div>
-    </div>
-
-    <!-- BLOQUE 7°: Optativa C (misma lista A/C, diferente name para distinguir registro) -->
-    <div class="checkbox-group" id="bloque-7C" style="display:none;">
-      <div class="checkbox-group-title">
-        Optativa C <span class="sem-badge badge-7">7°</span>
-      </div>
-      <div class="options-grid">
-        <label class="option-card"><input type="radio" name="optC" value="Topología algorítmica"><span>Topología algorítmica</span></label>
-        <label class="option-card"><input type="radio" name="optC" value="Criptología"><span>Criptología</span></label>
-        <label class="option-card"><input type="radio" name="optC" value="Aprendizaje de máquina estadístico"><span>Aprendizaje de máquina estadístico</span></label>
-        <label class="option-card"><input type="radio" name="optC" value="Teoría del riesgo"><span>Teoría del riesgo</span></label>
-        <label class="option-card"><input type="radio" name="optC" value="Teoría de la información"><span>Teoría de la información</span></label>
-        <label class="option-card"><input type="radio" name="optC" value="Análisis complejo"><span>Análisis complejo</span></label>
-        <label class="option-card"><input type="radio" name="optC" value="No la cursaré este semestre"><span>No la cursaré este semestre</span></label>
-      </div>
-      <div class="error-msg" id="err-optC">Selecciona una opción</div>
-    </div>
-
-    <!-- BLOQUE 7°: Optativa D -->
-    <div class="checkbox-group" id="bloque-7D" style="display:none;">
-      <div class="checkbox-group-title">
-        Optativa D <span class="sem-badge badge-7">7°</span>
-      </div>
-      <div class="options-grid">
-        <label class="option-card"><input type="radio" name="optD" value="Cómputo de alto desempeño"><span>Cómputo de alto desempeño</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Geometría algorítmica"><span>Geometría algorítmica</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Aprendizaje profundo"><span>Aprendizaje profundo</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Desarrollo de aplicaciones móviles y web"><span>Desarrollo de aplicaciones móviles y web</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Cómputo en la nube"><span>Cómputo en la nube</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Física computacional"><span>Física computacional</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Biología computacional"><span>Biología computacional</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Matrices aleatorias"><span>Matrices aleatorias</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Administración de riesgos financieros"><span>Administración de riesgos financieros</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Teoría de juegos"><span>Teoría de juegos</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="Seguridad digital"><span>Seguridad digital</span></label>
-        <label class="option-card"><input type="radio" name="optD" value="No la cursaré este semestre"><span>No la cursaré este semestre</span></label>
-      </div>
-      <div class="error-msg" id="err-optD">Selecciona una opción</div>
-    </div>
-
+    <div id="contenido-materias"></div>
     <div class="field">
       <label>Comentarios (opcional):</label>
       <input type="text" id="comentarios" placeholder="Ej. tengo duda entre dos materias...">
@@ -279,7 +161,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     </div>
   </div>
 
-  <!-- ══ SUCCESS ══ -->
+  <!-- SUCCESS -->
   <div class="success-screen" id="success-screen">
     <div class="success-icon">✅</div>
     <h2>¡Registro completado!</h2>
@@ -289,60 +171,65 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <br>
     <button class="btn btn-secondary" onclick="location.reload()" style="margin-top:1rem;">Nueva respuesta</button>
   </div>
-
 </div>
 
 <script>
-var currentStep = 'step-datos';
-// Qué bloques mostrar según semestre
-// sem 5 → solo A+B (adelanto de 6°)
-// sem 6 → A+B (6°) + C+D (7° en adelanto)
-// sem 7 → A+B (6° rezago) + C+D (7°)
-// sem 8 → solo C+D (rezago de 7°)
-var CONFIG = {
-  '5': { bloques:['6A','6B'],         titulo:'Quinto Semestre',  info:'Puedes cursar en adelanto optativas del <strong>6° semestre</strong>. Selecciona las que planeas tomar.' },
-  '6': { bloques:['6A','6B','7C','7D'], titulo:'Sexto Semestre',   info:'Puedes cursar optativas del <strong>6° semestre</strong> y en adelanto las del <strong>7°</strong>. Selecciona las que planeas tomar.' },
-  '7': { bloques:['6A','6B','7C','7D'], titulo:'Séptimo Semestre', info:'Puedes cursar optativas del <strong>7° semestre</strong> y en rezago las del <strong>6°</strong>. Selecciona las que planeas tomar.' },
-  '8': { bloques:['7C','7D'],         titulo:'Octavo Semestre',  info:'Puedes cursar en rezago optativas del <strong>7° semestre</strong>. Selecciona las que planeas tomar.' }
+var OBLIGATORIAS = {
+  '5': ['Teoría de la medida en finanzas','Álgebra abstracta','Optimización','Fundamentos de inteligencia artificial','Modelos estadísticos'],
+  '6': ['Negociación de activos financieros','Teoría de control discreto','Teoría computacional'],
+  '7': ['Modelado de precios en tiempo discreto','Trabajo terminal I'],
+  '8': ['Modelado de precios en tiempo continuo','Trabajo terminal II','Práctica profesional','Emprendimiento']
 };
 
+var OPT_AC = ['Topología algorítmica','Criptología','Aprendizaje de máquina estadístico','Teoría del riesgo','Teoría de la información','Análisis complejo'];
+var OPT_BD = ['Cómputo de alto desempeño','Geometría algorítmica','Aprendizaje profundo','Desarrollo de aplicaciones móviles y web','Cómputo en la nube','Física computacional','Biología computacional','Matrices aleatorias','Administración de riesgos financieros','Teoría de juegos','Seguridad digital'];
+
+var CONFIG = {
+  '4': { info:'Puedes cursar en adelanto optativas del <strong>6° semestre</strong>.', mostrarOblig:false, semOblig:null, bloques6:true, bloques7:false },
+  '5': { info:'Materias obligatorias de <strong>5°</strong> y optativas de <strong>6°</strong> en adelanto.', mostrarOblig:true, semOblig:'5', bloques6:true, bloques7:false },
+  '6': { info:'Materias de <strong>6°</strong>. Elige Opt-A y Opt-B. Puedes adelantar Opt-C y Opt-D de 7°.', mostrarOblig:true, semOblig:'6', bloques6:true, bloques7:true },
+  '7': { info:'Materias de <strong>7°</strong>. Elige Opt-C y Opt-D. Puedes rezagar Opt-A y Opt-B de 6°.', mostrarOblig:true, semOblig:'7', bloques6:true, bloques7:true },
+  '8': { info:'Materias de <strong>8°</strong>. Puedes rezagar Opt-C y Opt-D de 7°.', mostrarOblig:true, semOblig:'8', bloques6:false, bloques7:true }
+};
+
+var SEMTITULOS = {'4':'Cuarto','5':'Quinto','6':'Sexto','7':'Séptimo','8':'Octavo'};
+
 function showStep(id) {
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('active'); });
   var el = document.getElementById(id);
-  if (el) { el.classList.add('active'); currentStep = id; }
+  if (el) el.classList.add('active');
   var pct = {'step-datos':10,'step-no-aplica':50,'step-optativas':50};
-  document.getElementById('progressFill').style.width = (pct[id]||5) + '%';
+  document.getElementById('progressFill').style.width = (pct[id]||5)+'%';
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function back(id) { showStep(id); }
+function back(id){ showStep(id); }
 
 document.addEventListener('change', function(e) {
   if (e.target.type === 'radio') {
     var grid = e.target.closest('.options-grid') || e.target.closest('.sem-grid');
     if (grid) {
-      grid.querySelectorAll('.option-card,.sem-card').forEach(c => c.classList.remove('selected'));
+      grid.querySelectorAll('.option-card,.sem-card').forEach(function(c){ c.classList.remove('selected'); });
       e.target.closest('.option-card,.sem-card').classList.add('selected');
     }
   }
 });
 
-function getRadio(name) {
-  var r = document.querySelector('input[name="'+name+'"]:checked');
-  return r ? r.value : null;
-}
-function showErr(id, show) {
-  var el = document.getElementById(id); if (el) el.classList.toggle('show', show);
-}
-function validateText(id, errId) {
-  var val = document.getElementById(id).value.trim(); showErr(errId, !val); return !!val;
-}
-function validateEmail(id, errId) {
-  var val = document.getElementById(id).value.trim();
-  var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val); showErr(errId, !ok); return ok;
-}
-function validateRadio(name, errId) {
-  var ok = !!getRadio(name); showErr(errId, !ok); return ok;
+function getRadio(name){ var r=document.querySelector('input[name="'+name+'"]:checked'); return r?r.value:null; }
+function showErr(id,show){ var el=document.getElementById(id); if(el) el.classList.toggle('show',show); }
+function validateText(id,errId){ var v=document.getElementById(id).value.trim(); showErr(errId,!v); return !!v; }
+function validateEmail(id,errId){ var v=document.getElementById(id).value.trim(); var ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); showErr(errId,!ok); return ok; }
+function validateRadio(name,errId){ var ok=!!getRadio(name); showErr(errId,!ok); return ok; }
+
+function buildBloque(name, label, badge, badgeClass, lista) {
+  var html = '<div class="bloque-section">';
+  html += '<div class="bloque-header">'+label+' <span class="sem-badge '+badgeClass+'">'+badge+'</span></div>';
+  html += '<div class="options-grid">';
+  lista.forEach(function(m){
+    html += '<label class="option-card"><input type="radio" name="'+name+'" value="'+m+'"><span>'+m+'</span></label>';
+  });
+  html += '<label class="option-card"><input type="radio" name="'+name+'" value="No la cursaré este semestre"><span>No la cursaré este semestre</span></label>';
+  html += '</div><div class="error-msg" id="err-'+name+'">Selecciona una opción</div></div>';
+  return html;
 }
 
 function goToMaterias() {
@@ -359,27 +246,31 @@ function goToMaterias() {
   var cfg = CONFIG[sem];
   if (!cfg) { showStep('step-no-aplica'); return; }
 
-  // Configurar pantalla dinámica
-  document.getElementById('opt-titulo').textContent = '02 · ' + cfg.titulo + ' — Optativas';
+  document.getElementById('opt-titulo').textContent = '02 · '+SEMTITULOS[sem]+' Semestre — Materias';
   document.getElementById('opt-info').innerHTML = cfg.info;
 
-  // Ocultar todos los bloques
-  ['6A','6B','7C','7D'].forEach(function(b) {
-    document.getElementById('bloque-'+b).style.display = 'none';
-    // limpiar selecciones previas
-    var name = b === '6A' ? 'optA' : b === '6B' ? 'optB' : b === '7C' ? 'optC' : 'optD';
-    document.querySelectorAll('input[name="'+name+'"]').forEach(function(r){
-      r.checked = false;
-      r.closest('.option-card').classList.remove('selected');
-    });
-    showErr('err-opt'+name.slice(-1).toUpperCase(), false);
-  });
+  var html = '';
 
-  // Mostrar solo los del semestre
-  cfg.bloques.forEach(function(b) {
-    document.getElementById('bloque-'+b).style.display = 'block';
-  });
+  if (cfg.mostrarOblig && cfg.semOblig && OBLIGATORIAS[cfg.semOblig]) {
+    html += '<div class="section-divider">Obligatorias · '+SEMTITULOS[cfg.semOblig]+'° semestre</div>';
+    html += '<div class="obligatorias-list"><ul>';
+    OBLIGATORIAS[cfg.semOblig].forEach(function(m){ html += '<li>'+m+'</li>'; });
+    html += '</ul></div>';
+  }
 
+  if (cfg.bloques6) {
+    html += '<div class="section-divider">Optativas · 6° semestre</div>';
+    html += buildBloque('optA','Optativa A','6°','badge-6', OPT_AC);
+    html += buildBloque('optB','Optativa B','6°','badge-6', OPT_BD);
+  }
+
+  if (cfg.bloques7) {
+    html += '<div class="section-divider">Optativas · 7° semestre</div>';
+    html += buildBloque('optC','Optativa C','7°','badge-7', OPT_AC);
+    html += buildBloque('optD','Optativa D','7°','badge-7', OPT_BD);
+  }
+
+  document.getElementById('contenido-materias').innerHTML = html;
   showStep('step-optativas');
 }
 
@@ -389,21 +280,30 @@ function submitOptativas() {
   if (!cfg) return;
 
   var ok = true;
-  var bloqueMap = {'6A':'A','6B':'B','7C':'C','7D':'D'};
-  cfg.bloques.forEach(function(b) {
-    var letter = bloqueMap[b];
-    ok = validateRadio('opt'+letter, 'err-opt'+letter) && ok;
-  });
+  if (cfg.bloques6) {
+    ok = validateRadio('optA','err-optA') && ok;
+    ok = validateRadio('optB','err-optB') && ok;
+  }
+  if (cfg.bloques7) {
+    ok = validateRadio('optC','err-optC') && ok;
+    ok = validateRadio('optD','err-optD') && ok;
+  }
   if (!ok) return;
 
-  var materias = [];
-  cfg.bloques.forEach(function(b) {
-    var letter = bloqueMap[b];
-    var label = b.startsWith('6') ? 'Opt-'+letter+' (6°)' : 'Opt-'+letter+' (7°)';
-    materias.push(label + ': ' + getRadio('opt'+letter));
-  });
+  var lineas = [];
+  if (cfg.mostrarOblig && cfg.semOblig && OBLIGATORIAS[cfg.semOblig]) {
+    OBLIGATORIAS[cfg.semOblig].forEach(function(m){ lineas.push('Obligatoria: '+m); });
+  }
+  if (cfg.bloques6) {
+    lineas.push('Opt-A (6°): '+getRadio('optA'));
+    lineas.push('Opt-B (6°): '+getRadio('optB'));
+  }
+  if (cfg.bloques7) {
+    lineas.push('Opt-C (7°): '+getRadio('optC'));
+    lineas.push('Opt-D (7°): '+getRadio('optD'));
+  }
   var c = document.getElementById('comentarios').value.trim();
-  if (c) materias.push('Comentario: ' + c);
+  if (c) lineas.push('Comentario: '+c);
 
   var datos = {
     nombres:   document.getElementById('nombres').value.trim(),
@@ -412,33 +312,32 @@ function submitOptativas() {
     boleta:    document.getElementById('boleta').value.trim(),
     correo:    document.getElementById('correo').value.trim(),
     semestre:  sem,
-    materias:  materias.join(' | ')
+    materias:  lineas.join(' | ')
   };
 
   document.getElementById('resumen-datos').innerHTML =
-    '<strong>Alumno:</strong> ' + datos.nombres + ' ' + datos.apPaterno + ' ' + datos.apMaterno + '<br>' +
-    '<strong>Boleta:</strong> ' + datos.boleta + '<br>' +
-    '<strong>Correo:</strong> ' + datos.correo + '<br>' +
-    '<strong>Semestre:</strong> ' + datos.semestre + '°<br><br>' +
-    '<strong>Optativas registradas:</strong><br>' +
-    materias.map(function(m){ return '• ' + m; }).join('<br>');
+    '<strong>Alumno:</strong> '+datos.nombres+' '+datos.apPaterno+' '+datos.apMaterno+'<br>'+
+    '<strong>Boleta:</strong> '+datos.boleta+'<br>'+
+    '<strong>Correo:</strong> '+datos.correo+'<br>'+
+    '<strong>Semestre:</strong> '+datos.semestre+'°<br><br>'+
+    '<strong>Materias registradas:</strong><br>'+
+    lineas.map(function(m){ return '• '+m; }).join('<br>');
 
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById('success-screen').classList.add('active');
   document.getElementById('progressFill').style.width = '100%';
   window.scrollTo({top:0,behavior:'smooth'});
 
-  // Enviar a Google Sheets via fetch (no-cors para evitar bloqueo cross-origin)
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwy4fU6FODJF-1aMKt4qPcVr1pE9rLW-HdSxzEWf6aYINFsnsqA6LKIlqRF0rRRQ3Vz0Q/exec';
-  var params = '?nombres='   + encodeURIComponent(datos.nombres)   +
-               '&apPaterno=' + encodeURIComponent(datos.apPaterno) +
-               '&apMaterno=' + encodeURIComponent(datos.apMaterno) +
-               '&boleta='    + encodeURIComponent(datos.boleta)    +
-               '&correo='    + encodeURIComponent(datos.correo)    +
-               '&semestre='  + encodeURIComponent(datos.semestre)  +
-               '&materias='  + encodeURIComponent(datos.materias);
-  fetch(SCRIPT_URL + params, { method: 'GET', mode: 'no-cors' })
-    .catch(function(err){ console.error('Error al enviar:', err); });
+  var params = '?nombres='+encodeURIComponent(datos.nombres)+
+               '&apPaterno='+encodeURIComponent(datos.apPaterno)+
+               '&apMaterno='+encodeURIComponent(datos.apMaterno)+
+               '&boleta='+encodeURIComponent(datos.boleta)+
+               '&correo='+encodeURIComponent(datos.correo)+
+               '&semestre='+encodeURIComponent(datos.semestre)+
+               '&materias='+encodeURIComponent(datos.materias);
+  fetch(SCRIPT_URL+params, {method:'GET', mode:'no-cors'})
+    .catch(function(err){ console.error('Error:', err); });
 }
 </script>
 </body>

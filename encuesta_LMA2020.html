@@ -428,8 +428,8 @@ function submitOptativas() {
   document.getElementById('progressFill').style.width = '100%';
   window.scrollTo({top:0,behavior:'smooth'});
 
-  // Enviar a Google Sheets via iframe (método más confiable)
-  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzV8VfI31NF_iDuWP9QJnLJ7Hp8MTFun_HSPIIRh9ZK0-noiXC-qdWUdYi4N2Nzj14E-Q/exec';
+  // Enviar a Google Sheets via fetch (no-cors para evitar bloqueo cross-origin)
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwy4fU6FODJF-1aMKt4qPcVr1pE9rLW-HdSxzEWf6aYINFsnsqA6LKIlqRF0rRRQ3Vz0Q/exec';
   var params = '?nombres='   + encodeURIComponent(datos.nombres)   +
                '&apPaterno=' + encodeURIComponent(datos.apPaterno) +
                '&apMaterno=' + encodeURIComponent(datos.apMaterno) +
@@ -437,8 +437,8 @@ function submitOptativas() {
                '&correo='    + encodeURIComponent(datos.correo)    +
                '&semestre='  + encodeURIComponent(datos.semestre)  +
                '&materias='  + encodeURIComponent(datos.materias);
-  var img = new Image();
-  img.src = SCRIPT_URL + params;
+  fetch(SCRIPT_URL + params, { method: 'GET', mode: 'no-cors' })
+    .catch(function(err){ console.error('Error al enviar:', err); });
 }
 </script>
 </body>

@@ -428,7 +428,7 @@ function submitOptativas() {
   document.getElementById('progressFill').style.width = '100%';
   window.scrollTo({top:0,behavior:'smooth'});
 
-  // Enviar a Google Sheets
+  // Enviar a Google Sheets via iframe (método más confiable)
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzV8VfI31NF_iDuWP9QJnLJ7Hp8MTFun_HSPIIRh9ZK0-noiXC-qdWUdYi4N2Nzj14E-Q/exec';
   var params = '?nombres='   + encodeURIComponent(datos.nombres)   +
                '&apPaterno=' + encodeURIComponent(datos.apPaterno) +
@@ -437,10 +437,8 @@ function submitOptativas() {
                '&correo='    + encodeURIComponent(datos.correo)    +
                '&semestre='  + encodeURIComponent(datos.semestre)  +
                '&materias='  + encodeURIComponent(datos.materias);
-  fetch(SCRIPT_URL + params, { method: 'GET', mode: 'no-cors' })
-    .catch(function(err) { console.error('Error al enviar:', err); });
-  // Respaldo con imagen por si fetch falla
-  new Image().src = SCRIPT_URL + params;
+  var img = new Image();
+  img.src = SCRIPT_URL + params;
 }
 </script>
 </body>

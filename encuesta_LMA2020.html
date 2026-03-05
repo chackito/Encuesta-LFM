@@ -43,6 +43,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .option-card{display:flex;align-items:flex-start;gap:0.75rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;cursor:pointer;transition:border-color 0.2s,background 0.2s;user-select:none;}
 .option-card:hover{border-color:var(--accent);background:#1e1e2a;}
 .option-card.selected{border-color:var(--accent);background:rgba(91,140,255,0.08);}
+.option-card input[type="checkbox"]{appearance:none;width:16px;height:16px;min-width:16px;border:2px solid var(--muted);border-radius:3px;margin-top:1px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;}
+.option-card input[type="checkbox"]:checked{border-color:var(--accent);background:var(--accent);}
+.option-card input[type="checkbox"]:checked::after{content:'✓';position:absolute;color:white;font-size:11px;font-weight:bold;top:50%;left:50%;transform:translate(-50%,-50%);}
 .option-card input[type="radio"]{appearance:none;width:16px;height:16px;min-width:16px;border:2px solid var(--muted);border-radius:50%;margin-top:1px;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;}
 .option-card input[type="radio"]:checked{border-color:var(--accent);background:var(--accent);}
 .option-card input[type="radio"]:checked::after{content:'';position:absolute;width:6px;height:6px;background:white;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);}
@@ -212,6 +215,9 @@ document.addEventListener('change', function(e) {
       e.target.closest('.option-card,.sem-card').classList.add('selected');
     }
   }
+  if (e.target.type === 'checkbox') {
+    e.target.closest('.option-card').classList.toggle('selected', e.target.checked);
+  }
 });
 
 function getRadio(name){ var r=document.querySelector('input[name="'+name+'"]:checked'); return r?r.value:null; }
@@ -253,9 +259,11 @@ function goToMaterias() {
 
   if (cfg.mostrarOblig && cfg.semOblig && OBLIGATORIAS[cfg.semOblig]) {
     html += '<div class="section-divider">Obligatorias · '+SEMTITULOS[cfg.semOblig]+'° semestre</div>';
-    html += '<div class="obligatorias-list"><ul>';
-    OBLIGATORIAS[cfg.semOblig].forEach(function(m){ html += '<li>'+m+'</li>'; });
-    html += '</ul></div>';
+    html += '<div class="options-grid">';
+    OBLIGATORIAS[cfg.semOblig].forEach(function(m){
+      html += '<label class="option-card"><input type="checkbox" name="oblig" value="'+m+'"><span>'+m+'</span></label>';
+    });
+    html += '</div><br>';
   }
 
   if (cfg.bloques6) {
@@ -292,7 +300,9 @@ function submitOptativas() {
 
   var lineas = [];
   if (cfg.mostrarOblig && cfg.semOblig && OBLIGATORIAS[cfg.semOblig]) {
-    OBLIGATORIAS[cfg.semOblig].forEach(function(m){ lineas.push('Obligatoria: '+m); });
+    document.querySelectorAll('input[name="oblig"]:checked').forEach(function(cb){
+      lineas.push('Obligatoria: '+cb.value);
+    });
   }
   if (cfg.bloques6) {
     lineas.push('Opt-A (6°): '+getRadio('optA'));

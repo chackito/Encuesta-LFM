@@ -346,7 +346,8 @@ function submitOptativas() {
                '&correo='+encodeURIComponent(datos.correo)+
                '&semestre='+encodeURIComponent(datos.semestre)+
                '&materias='+encodeURIComponent(datos.materias);
-  new Image().src = SCRIPT_URL+params;
+  var img = new Image();
+  img.src = SCRIPT_URL+params;
 }
 </script>
 </body>

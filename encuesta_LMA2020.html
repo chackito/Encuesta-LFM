@@ -338,7 +338,7 @@ function submitOptativas() {
   document.getElementById('progressFill').style.width = '100%';
   window.scrollTo({top:0,behavior:'smooth'});
 
-  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8KOoXWaRE0EuQ6lvgblMq8LwLYmAmLzVuZCqvIwT049VPJUvcV0Kml8o00nUI3WyTDw/exec';
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjQabQGPWOuTX2x1Z7L6j_RJV8IOlMK_jj-9air9oqpVa_Vs6jcRMt_f-CNvxd4WicRw/exec';
   var params = '?nombres='+encodeURIComponent(datos.nombres)+
                '&apPaterno='+encodeURIComponent(datos.apPaterno)+
                '&apMaterno='+encodeURIComponent(datos.apMaterno)+
@@ -346,8 +346,7 @@ function submitOptativas() {
                '&correo='+encodeURIComponent(datos.correo)+
                '&semestre='+encodeURIComponent(datos.semestre)+
                '&materias='+encodeURIComponent(datos.materias);
-  fetch(SCRIPT_URL+params, {method:'GET', mode:'no-cors'})
-    .catch(function(err){ console.error('Error:', err); });
+  new Image().src = SCRIPT_URL+params;
 }
 </script>
 </body>
